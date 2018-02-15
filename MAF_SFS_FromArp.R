@@ -77,7 +77,6 @@ hist(allfreqs, breaks=48)
 sum(allfreqs==0)
 sum(allfreqs==1)
 sum(allfreqs==2)
-
 barplot(table(allfreqs))
 
 #without monomorphic
@@ -86,31 +85,6 @@ barplot(table(allfreqs)[-1])
 #this can be provided to fastsimcoal2
 table(allfreqs)
 
-
-#same for a Finnish sample
-FIN_nomis<-new_nomis[poplabels==1,]
-frekvenssit(FIN_nomis[,1])
-allfreqs<-apply(FIN_nomis, 2, frekvenssit)
-hist(allfreqs)
-hist(allfreqs, breaks=48)
-sum(allfreqs==0)
-sum(allfreqs==1)
-sum(allfreqs==2)
-barplot(table(allfreqs))
-barplot(table(allfreqs)[-1])
-
-#same for an Iranian sample
-
-IR_nomis<-new_nomis[poplabels==4,]
-frekvenssit(IR_nomis[,1])
-allfreqs<-apply(IR_nomis, 2, frekvenssit)
-hist(allfreqs)
-hist(allfreqs, breaks=48)
-sum(allfreqs==0)
-sum(allfreqs==1)
-sum(allfreqs==2)
-barplot(table(allfreqs))
-barplot(table(allfreqs)[-1])
 
 
 #2d SFS
