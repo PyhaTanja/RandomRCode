@@ -1,13 +1,15 @@
+#This script reads the genotype part of an Arlequin input file and makes one and two dimensional folded site frequency spectrum
+
 #Read a modified arp  file, just the rows with genotypes
 
-data<-read.table(file="/Users/tpyhajar/Documents/Marja/PurePops29607Loci_NewTP.arp", sep="\t")
+data<-read.table(file="MAF_SFS_Example.arp", sep="\t")
 #Remove unencessary columns, if needed
 data<-data[,-1]
 
 #Naming table
 rivi<-as.character(data[1,3])
 numerorivi<-as.integer(unlist(strsplit(rivi,split=" ")))
-rivinr<-length(test[,1])
+rivinr<-length(data[,1])
 
 #make a matrix for genotype data
 new<-matrix(nrow=rivinr, ncol=length(numerorivi))
@@ -33,7 +35,7 @@ new_nomis<-new[,nomissing]
 #double check
 table(apply(new_nomis, 2, is.na))
 
-#funciton to count minor allele frequency for a single population
+#function to count minor allele frequency for a single population
 frequency1pop<-function(alleles){
 	als<-unique(alleles)
 	als<-als[!is.na(als)]
@@ -59,17 +61,17 @@ allfreqs<-apply(new_nomis, 2, frequency1pop)
 hist(allfreqs)
 hist(allfreqs, breaks=200)
 
-#Use poplabels to controls pops
-poplabels<-c(9,9,9,9,10,10,10,10,10,10,10,10,11,11,11,11,11,11,11,11,17,17,17,17,17,17,17,17,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,12,12,12,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,14,14,14,14,14,14,14,14,15,15,15,15,16,16,16,16,18,18,18,18,18,18,18,18,18,18,19,19,19,19,3,3,3,3,3,3,3,3)
-
-poplabels<-as.factor(poplabels)
+# #Option: Use poplabels to controls pops
+# poplabels<-c(1,1,1,2,2)
+# 
+# poplabels<-as.factor(poplabels)
 
 
 #testing
-frekvenssit(wild_nomis[,1])
+frequency1pop(data[,1])
 
 #Apply
-allfreqs<-apply(wild_nomis, 2, frekvenssit)
+allfreqs<-apply(new_nomis, 2, frequency1pop)
 
 #inspecting results
 hist(allfreqs)
@@ -111,8 +113,9 @@ frequencies2pop<-function(alleles, n1){
 
 #choose 2 populations
 #like this or by using poplabels
-wild<-c(1:98)
-dom<-(99:200)
+#note that when e.g. 3 diploid individuals form a population, you need to count both copies when indicating pops
+wild<-c(1:6)
+dom<-(7:10)
 
 #just wilds
 pop1<-new_nomis[wild,]
